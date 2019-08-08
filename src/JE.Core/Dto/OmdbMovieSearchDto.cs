@@ -6,7 +6,7 @@ namespace JE.Core.Dto
     {
         public string Title { get; set; }
 
-        public long Year { get; set; }
+        public string Year { get; set; }
 
         public string ImdbId { get; set; }
 
