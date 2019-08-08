@@ -1,12 +1,12 @@
-﻿using System;
+﻿using DynamicData;
+using DynamicData.Binding;
+using JE.Core.Dto;
 using JE.Infrastructure.Services;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using DynamicData;
-using DynamicData.Binding;
-using JE.Core.Dto;
 
 namespace JE.App.Pages.Movie.List
 {
@@ -20,16 +20,19 @@ namespace JE.App.Pages.Movie.List
             source.Connect()
                 .Sort(SortExpressionComparer<OmdbMovieSearchDto>.Ascending(p => p.Title), SortOptimisations.ComparesImmutableValuesOnly)
                 .Bind(Movies)
-                .Subscribe()
+                .Subscribe(_ => UpdateState())
                 .DisposeWith(CleanUp);
 
             this.WhenAnyValue(x => x.SearchText)
                 .Skip(1)
+                .Throttle(TimeSpan.FromMilliseconds(250))
                 .SelectMany(omdbMovieService.SearchAsync)
                 .Subscribe(x => source.Edit(list =>
                 {
                     list.Clear();
-                    list.AddOrUpdate(x);
+
+                    if (x != null)
+                        list.AddOrUpdate(x);
                 }))
                 .DisposeWith(CleanUp);
         }

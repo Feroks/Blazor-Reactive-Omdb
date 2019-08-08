@@ -1,12 +1,45 @@
 ﻿@page "/"
+@using System.Reactive.Linq
 @implements IDisposable
 @inject MovieListViewModel ViewModel
 
-<h3>MovieList</h3>
+<input class="form-control mb-4" @bind-value="ViewModel.SearchText" @bind-value:event="oninput" type="text" placeholder="Search" aria-label="Search"></input>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Poster</th>
+            <th>Title</th>
+            <th>Year</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var movie in ViewModel.Movies)
+        {
+            <tr>
+                <td><img src="@movie.Poster.ToString()" height="55"></td>
+                <td class="align-middle">@movie.Title</td>
+                <td class="align-middle">@movie.Year</td>
+            </tr>
+        }
+    </tbody>
+</table>
 
 @code {
+    IDisposable _vmUpdateSubscription;
+
+    protected override void OnInit()
+    {
+        _vmUpdateSubscription = Observable
+            .FromEventPattern(
+                h => ViewModel.StateHasChanged += h,
+                h => ViewModel.StateHasChanged -= h)
+            .Subscribe(x => Invoke(StateHasChanged));
+    }
+
     public void Dispose()
     {
+        _vmUpdateSubscription.Dispose();
         ViewModel.Dispose();
     }
 }
