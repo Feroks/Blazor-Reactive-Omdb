@@ -32,7 +32,7 @@ namespace JE.Infrastructure.Services
                 .GetJsonAsync<OmdbMovieDto>();
 
         private Url CreateBaseUrl() => 
-            "http://www.omdbapi.com/?apikey=[yourkey]&"
+            "http://www.omdbapi.com"
                 .SetQueryParam("apikey", _apiKey)
                 .SetQueryParam("r", "json");
     }
