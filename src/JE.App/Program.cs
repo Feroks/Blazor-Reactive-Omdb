@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("JE.App.Tests")]
 namespace JE.App
 {
     public class Program
