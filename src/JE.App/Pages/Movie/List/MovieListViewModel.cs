@@ -2,6 +2,7 @@
 using DynamicData.Binding;
 using JE.Core.Dto;
 using JE.Infrastructure.Services;
+using JetBrains.Annotations;
 using Microsoft.AspNetCore.Components;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
@@ -31,7 +32,9 @@ namespace JE.App.Pages.Movie.List
             this.WhenAnyValue(x => x.SearchText)
                 .Skip(1)
                 .Throttle(TimeSpan.FromMilliseconds(250))
+                .Do(_ => IsSearching = true)
                 .SelectMany(omdbMovieService.SearchAsync)
+                .Do(_ => IsSearching = false)
                 .Subscribe(x => source.Edit(list =>
                 {
                     list.Clear();
@@ -40,10 +43,22 @@ namespace JE.App.Pages.Movie.List
                         list.AddOrUpdate(x);
                 }))
                 .DisposeWith(CleanUp);
+
+            source.CountChanged
+                .StartWith(0)
+                .Select(x => x == 0)
+                .ToPropertyEx(this, x => x.IsSourceEmpty)
+                .DisposeWith(CleanUp);
         }
 
         [Reactive]
         public string SearchText { get; set; }
+        
+        [UsedImplicitly] 
+        public bool IsSourceEmpty { [ObservableAsProperty] get;  }
+
+        [Reactive]
+        public bool IsSearching { get; set; }
 
         public IObservableCollection<OmdbMovieSearchDto> Movies { get; } = new ObservableCollectionExtended<OmdbMovieSearchDto>();
 

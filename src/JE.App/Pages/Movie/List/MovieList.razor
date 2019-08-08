@@ -3,25 +3,36 @@
 
 <input class="form-control mb-4" @bind-value="ViewModel.SearchText" @bind-value:event="oninput" type="text" placeholder="Search" aria-label="Search"></input>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Poster</th>
-            <th>Title</th>
-            <th>Year</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var movie in ViewModel.Movies)
-        {
-            <tr @onclick="(() => ViewModel.OpenDetail(movie.ImdbId))">
-                <td><img src="@movie.Poster.ToString()" height="55"></td>
-                <td class="align-middle">@movie.Title</td>
-                <td class="align-middle">@movie.Year</td>
+@if (ViewModel.IsSearching)
+{
+    <div class="text-center">
+        <div class="spinner-border text-primary" role="status" style="width: 4rem; height: 4rem;">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+}
+else
+{
+    if (!ViewModel.IsSourceEmpty)
+    {
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Poster</th>
+                <th>Title</th>
+                <th>Year</th>
             </tr>
-        }
-    </tbody>
-</table>
-
-@code {
+            </thead>
+            <tbody>
+            @foreach (var movie in ViewModel.Movies)
+            {
+                <tr @onclick="(() => ViewModel.OpenDetail(movie.ImdbId))">
+                    <td><img src="@movie.Poster.ToString()" height="55"></td>
+                    <td class="align-middle">@movie.Title</td>
+                    <td class="align-middle">@movie.Year</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
 }
