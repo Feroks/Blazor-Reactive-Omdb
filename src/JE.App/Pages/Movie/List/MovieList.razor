@@ -1,7 +1,5 @@
 ﻿@page "/"
-@using System.Reactive.Linq
-@implements IDisposable
-@inject MovieListViewModel ViewModel
+@inherits BasePage<MovieListViewModel>
 
 <input class="form-control mb-4" @bind-value="ViewModel.SearchText" @bind-value:event="oninput" type="text" placeholder="Search" aria-label="Search"></input>
 
@@ -26,20 +24,4 @@
 </table>
 
 @code {
-    IDisposable _vmUpdateSubscription;
-
-    protected override void OnInit()
-    {
-        _vmUpdateSubscription = Observable
-            .FromEventPattern(
-                h => ViewModel.StateHasChanged += h,
-                h => ViewModel.StateHasChanged -= h)
-            .Subscribe(x => Invoke(StateHasChanged));
-    }
-
-    public void Dispose()
-    {
-        _vmUpdateSubscription.Dispose();
-        ViewModel.Dispose();
-    }
 }
