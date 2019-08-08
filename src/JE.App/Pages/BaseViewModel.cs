@@ -10,7 +10,7 @@ namespace JE.App.Pages
     public abstract class BaseViewModel : ReactiveObject, IDisposable
     {
         /// <summary>
-        /// Since we use a ViewModel approach we need to manually call StateHasChanged on the component level
+        /// Since we use a ViewModel approach we need to manually call StateHasChanged on the component level to update UI
         /// </summary>
         public event EventHandler StateHasChanged;
 

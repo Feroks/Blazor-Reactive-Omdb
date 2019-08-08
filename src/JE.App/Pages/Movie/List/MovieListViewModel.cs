@@ -46,7 +46,9 @@ namespace JE.App.Pages.Movie.List
                 .DisposeWith(CleanUp);
 
             var searchTextObservable = this.WhenAnyValue(x => x.SearchText)
+                // Skip initial value which is null
                 .Skip(1)
+                // Use throttle to prevent over requesting data
                 .Throttle(TimeSpan.FromMilliseconds(250))
                 .Publish();
 
@@ -62,7 +64,6 @@ namespace JE.App.Pages.Movie.List
                         list.AddOrUpdate(x);
                 }))
                 .DisposeWith(CleanUp);
-
 
             searchTextObservable
                 .SelectMany(async x =>

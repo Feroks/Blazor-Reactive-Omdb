@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using JetBrains.Annotations;
+using Microsoft.AspNetCore.Components;
 using System;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
 namespace JE.App.Pages
@@ -7,23 +9,25 @@ namespace JE.App.Pages
     public abstract class BasePage<T> : ComponentBase, IDisposable
         where T : BaseViewModel
     {
-        private IDisposable _vmUpdateSubscription;
-
         [Inject]
         public T ViewModel { get; set; }
 
+        [NotNull]
+        protected  CompositeDisposable CleanUp { get; } = new CompositeDisposable();
+
         protected override void OnInit()
         {
-            _vmUpdateSubscription = Observable
+            Observable
                 .FromEventPattern(
                     h => ViewModel.StateHasChanged += h,
                     h => ViewModel.StateHasChanged -= h)
-                .Subscribe(_ => Invoke(StateHasChanged));
+                .Subscribe(_ => Invoke(StateHasChanged))
+                .DisposeWith(CleanUp);
         }
 
         public void Dispose()
         {
-            _vmUpdateSubscription.Dispose();
+            CleanUp.Dispose();
             ViewModel.Dispose();
         }
     }
