@@ -34,7 +34,8 @@ namespace JE.App.Extensions
             services.AddSingleton<WeatherForecastService>();
 
             // We only have 1 service, but this allows us to avoid manually writing AddSingleton for ear service we add in the future.
-            services.Scan(scan => scan
+            services
+                .Scan(scan => scan
                 .FromAssembliesOf(typeof(IOmdbMovieService))
                 .AddClasses(classes => classes.Where(x => x.Name.EndsWith("Service")))
                 .AsImplementedInterfaces()
@@ -45,10 +46,11 @@ namespace JE.App.Extensions
 
         public static IServiceCollection AddViewModels(this IServiceCollection services)
         {
-            services.Scan(scan => scan
-                .FromAssembliesOf(typeof(Program))
+            services
+                .Scan(scan => scan
+                .FromCallingAssembly()
                 .AddClasses(classes => classes.Where(x => x.Name.EndsWith("ViewModel")))
-                .AsImplementedInterfaces()
+                .AsSelf()
                 .WithTransientLifetime());
 
             return services;
