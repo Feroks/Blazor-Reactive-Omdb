@@ -48,7 +48,6 @@ namespace JE.App.Pages.Movie.List
                 .DisposeWith(CleanUp);
 
             var searchTextObservable = this.WhenAnyValue(x => x.SearchText)
-                // Skip initial value
                 .Skip(1)
                 // Use throttle to prevent over requesting data
                 .Throttle(TimeSpan.FromMilliseconds(250))
