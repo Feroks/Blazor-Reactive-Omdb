@@ -1,0 +1,12 @@
+﻿@page "/"
+@implements IDisposable
+@inject MovieListViewModel ViewModel
+
+<h3>MovieList</h3>
+
+@code {
+    public void Dispose()
+    {
+        ViewModel.Dispose();
+    }
+}

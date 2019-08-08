@@ -6,11 +6,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Fody" Version="5.1.1">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" />
+    <PackageReference Include="ReactiveUI" Version="9.20.1" />
+    <PackageReference Include="ReactiveUI.Fody" Version="9.20.1" />
     <PackageReference Include="Scrutor" Version="3.1.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\JE.Infrastructure\JE.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Pages\Movie\Detail\" />
   </ItemGroup>
 
 </Project>
