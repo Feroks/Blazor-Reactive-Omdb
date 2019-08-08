@@ -1,5 +1,4 @@
-﻿using JE.App.Data;
-using JE.Core.Options;
+﻿using JE.Core.Options;
 using JE.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -9,14 +8,6 @@ namespace JE.App.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddBlazor(this IServiceCollection services)
-        {
-            services.AddRazorPages();
-            services.AddServerSideBlazor();
-
-            return services;
-        }
-
         public static IServiceCollection AddCustomOptions(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<OmdbOptions>(configuration.GetSection(nameof(OmdbOptions)));
@@ -30,9 +21,6 @@ namespace JE.App.Extensions
 
         public static IServiceCollection AddServices(this IServiceCollection services)
         {
-            // TODO: Delete 
-            services.AddSingleton<WeatherForecastService>();
-
             // We only have 1 service, but this allows us to avoid manually writing AddSingleton for ear service we add in the future.
             services
                 .Scan(scan => scan

@@ -1,5 +1,6 @@
 ﻿@page "/movie/{Id}"
 
+@using Microsoft.AspNetCore.Components
 @inherits BasePage<MovieDetailViewModel>
 
 @if (ViewModel.Movie != null)
@@ -37,6 +38,8 @@
                 <div class="col-sm-4 col-md-2 font-weight-bold">Plot</div>
                 <div class="col-sm-8 col-md-10">@ViewModel.Movie.Plot</div>
             </div>
+
+            <!-- And so on -->
         </div>
     </div>
 }
