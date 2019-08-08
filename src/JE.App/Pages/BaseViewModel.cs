@@ -1,7 +1,9 @@
 ﻿using JetBrains.Annotations;
 using ReactiveUI;
 using System;
+using System.ComponentModel;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 
 namespace JE.App.Pages
 {
@@ -11,6 +13,16 @@ namespace JE.App.Pages
         /// Since we use a ViewModel approach we need to manually call StateHasChanged on the component level
         /// </summary>
         public event EventHandler StateHasChanged;
+
+        public BaseViewModel()
+        {
+            Observable
+                .FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
+                    h => PropertyChanged += h,
+                    h => PropertyChanged -= h)
+                .Subscribe(_ => UpdateState())
+                .DisposeWith(CleanUp);
+        }
 
         [NotNull]
         protected CompositeDisposable CleanUp { get; } = new CompositeDisposable();
