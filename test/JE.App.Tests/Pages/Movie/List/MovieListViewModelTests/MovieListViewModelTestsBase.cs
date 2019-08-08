@@ -1,5 +1,6 @@
 ﻿using Blazored.LocalStorage;
 using JE.App.Pages.Movie.List;
+using JE.App.State;
 using JE.Infrastructure.Services;
 using Microsoft.AspNetCore.Components;
 using Moq;
@@ -27,6 +28,7 @@ namespace JE.App.Tests.Pages.Movie.List.MovieListViewModelTests
             new MovieListViewModel(
                 OmdbMovieServiceMock.Object,
                 UriHelperMock.Object,
-                LocalStorageServiceMock.Object);
+                LocalStorageServiceMock.Object,
+                new MovieSearchStore());
     }
 }
