@@ -29,6 +29,12 @@ namespace JE.App.Pages.Movie.List
                 .Subscribe(_ => UpdateState())
                 .DisposeWith(CleanUp);
 
+            source.CountChanged
+                .StartWith(0)
+                .Select(x => x == 0)
+                .ToPropertyEx(this, x => x.IsSourceEmpty)
+                .DisposeWith(CleanUp);
+
             this.WhenAnyValue(x => x.SearchText)
                 .Skip(1)
                 .Throttle(TimeSpan.FromMilliseconds(250))
@@ -43,22 +49,16 @@ namespace JE.App.Pages.Movie.List
                         list.AddOrUpdate(x);
                 }))
                 .DisposeWith(CleanUp);
-
-            source.CountChanged
-                .StartWith(0)
-                .Select(x => x == 0)
-                .ToPropertyEx(this, x => x.IsSourceEmpty)
-                .DisposeWith(CleanUp);
         }
 
         [Reactive]
         public string SearchText { get; set; }
         
-        [UsedImplicitly] 
-        public bool IsSourceEmpty { [ObservableAsProperty] get;  }
-
         [Reactive]
         public bool IsSearching { get; set; }
+
+        [UsedImplicitly] 
+        public bool IsSourceEmpty { [ObservableAsProperty] get;  }
 
         public IObservableCollection<OmdbMovieSearchDto> Movies { get; } = new ObservableCollectionExtended<OmdbMovieSearchDto>();
 
