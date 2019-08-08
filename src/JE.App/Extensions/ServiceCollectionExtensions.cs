@@ -7,6 +7,14 @@ namespace JE.App.Extensions
 {
     public static class ServiceCollectionExtensions
     {
+        public static IServiceCollection AddBlazor(this IServiceCollection services)
+        {
+            services.AddRazorPages();
+            services.AddServerSideBlazor();
+
+            return services;
+        }
+
         public static IServiceCollection AddOptions(IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<OmdbOptions>(configuration.GetSection(nameof(OmdbOptions)));
