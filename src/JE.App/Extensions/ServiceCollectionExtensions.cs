@@ -28,7 +28,7 @@ namespace JE.App.Extensions
                 .FromAssembliesOf(typeof(IOmdbMovieService))
                 .AddClasses(classes => classes.Where(x => x.Name.EndsWith("Service")))
                 .AsImplementedInterfaces()
-                .WithSingletonLifetime());
+                .WithScopedLifetime());
 
             return services;
         }
@@ -47,7 +47,7 @@ namespace JE.App.Extensions
         
         public static IServiceCollection AddRedux(this IServiceCollection services)
         {
-            services.AddSingleton(_ => new MovieSearchStore());
+            services.AddScoped(_ => new MovieSearchStore());
 
             return services;
         }
