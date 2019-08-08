@@ -21,6 +21,7 @@ namespace JE.App
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddBlazor();
+            services.AddViewModels();
             services.AddServices();
             services.AddOptions();
             services.AddCustomOptions(Configuration);

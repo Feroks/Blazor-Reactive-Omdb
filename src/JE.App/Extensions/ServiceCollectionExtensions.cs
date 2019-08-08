@@ -42,5 +42,16 @@ namespace JE.App.Extensions
 
             return services;
         }
+
+        public static IServiceCollection AddViewModels(this IServiceCollection services)
+        {
+            services.Scan(scan => scan
+                .FromAssembliesOf(typeof(Program))
+                .AddClasses(classes => classes.Where(x => x.Name.EndsWith("ViewModel")))
+                .AsImplementedInterfaces()
+                .WithTransientLifetime());
+
+            return services;
+        }
     }
 }
