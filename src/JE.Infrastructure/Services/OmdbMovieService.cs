@@ -1,4 +1,9 @@
-﻿using JE.Core.Options;
+﻿using Flurl;
+using Flurl.Http;
+using JE.Core.Dto;
+using JE.Core.Options;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace JE.Infrastructure.Services
 {
@@ -10,5 +15,25 @@ namespace JE.Infrastructure.Services
         {
             _apiKey = omdbOptions.ApiKey;
         }
+
+        public async Task<IEnumerable<OmdbMovieSearchDto>> SearchAsync(string searchText)
+        {
+            var response = await CreateBaseUrl()
+                .SetQueryParam("s", searchText)
+                .SetQueryParam("t", "movie")
+                .GetJsonAsync<OmdbMovieSearchResponseDto>();
+
+            return response.Search;
+        }
+
+        public Task<OmdbMovieDto> GetAsync(string id) =>
+            CreateBaseUrl()
+                .SetQueryParam("i", id)
+                .GetJsonAsync<OmdbMovieDto>();
+
+        private Url CreateBaseUrl() => 
+            "http://www.omdbapi.com/?apikey=[yourkey]&"
+                .SetQueryParam("apikey", _apiKey)
+                .SetQueryParam("r", "json");
     }
 }
