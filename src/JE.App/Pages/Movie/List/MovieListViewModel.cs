@@ -84,7 +84,9 @@ namespace JE.App.Pages.Movie.List
                 .Skip(1)
                 .SelectMany(async x =>
                 {
-                    await UpdateSearchTextsAsync(x);
+                    await UpdateSearchTextsAsync(x)
+                        .ConfigureAwait(false);
+
                     return Unit.Default;
                 })
                 .Subscribe()

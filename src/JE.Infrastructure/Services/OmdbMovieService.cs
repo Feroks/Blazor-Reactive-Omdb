@@ -21,7 +21,8 @@ namespace JE.Infrastructure.Services
             var response = await CreateBaseUrl()
                 .SetQueryParam("s", searchText)
                 .SetQueryParam("t", "movie")
-                .GetJsonAsync<OmdbMovieSearchResponseDto>();
+                .GetJsonAsync<OmdbMovieSearchResponseDto>()
+                .ConfigureAwait(false);
 
             return response.Search;
         }
