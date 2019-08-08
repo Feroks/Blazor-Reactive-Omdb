@@ -28,7 +28,7 @@ namespace JE.App.Extensions
                 .FromAssembliesOf(typeof(IOmdbMovieService))
                 .AddClasses(classes => classes.Where(x => x.Name.EndsWith("Service")))
                 .AsImplementedInterfaces()
-                .WithScopedLifetime());
+                .WithSingletonLifetime());
 
             return services;
         }
