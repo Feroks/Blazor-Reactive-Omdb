@@ -26,7 +26,7 @@ else
             <tbody>
             @foreach (var movie in ViewModel.Movies)
             {
-                <tr @onclick="(() => ViewModel.OpenDetail(movie.ImdbId))">
+                <tr @onclick="(() => ViewModel.OpenDetail(movie.ImdbId))" style="cursor: pointer;">
                     <td><img src="@movie.Poster.ToString()" height="55"></td>
                     <td class="align-middle">@movie.Title</td>
                     <td class="align-middle">@movie.Year</td>
