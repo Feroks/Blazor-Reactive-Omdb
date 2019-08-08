@@ -1,4 +1,5 @@
-﻿using JE.Core.Options;
+﻿using JE.App.State;
+using JE.Core.Options;
 using JE.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,6 +41,13 @@ namespace JE.App.Extensions
                 .AddClasses(classes => classes.Where(x => x.Name.EndsWith("ViewModel")))
                 .AsSelf()
                 .WithTransientLifetime());
+
+            return services;
+        }
+        
+        public static IServiceCollection AddRedux(this IServiceCollection services)
+        {
+            services.AddSingleton(_ => new MovieSearchStore());
 
             return services;
         }

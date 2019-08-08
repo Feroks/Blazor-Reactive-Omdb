@@ -21,11 +21,12 @@ namespace JE.App
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddBlazoredLocalStorage();
             services.AddViewModels();
             services.AddServices();
             services.AddOptions();
             services.AddCustomOptions(Configuration);
-            services.AddBlazoredLocalStorage();
+            services.AddRedux();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

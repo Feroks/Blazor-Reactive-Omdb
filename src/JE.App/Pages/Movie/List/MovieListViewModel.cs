@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using DynamicData;
 using DynamicData.Binding;
+using JE.App.State;
 using JE.Core.Dto;
 using JE.Infrastructure.Services;
 using JetBrains.Annotations;
@@ -25,11 +26,14 @@ namespace JE.App.Pages.Movie.List
         private readonly IUriHelper _uriHelper;
         private readonly ILocalStorageService _localStorageService;
 
-        public MovieListViewModel(IOmdbMovieService omdbMovieService, IUriHelper uriHelper, ILocalStorageService localStorageService)
+        public MovieListViewModel(IOmdbMovieService omdbMovieService, IUriHelper uriHelper, ILocalStorageService localStorageService, MovieSearchStore movieSearchStore)
         {
             _uriHelper = uriHelper;
             _localStorageService = localStorageService;
-
+            
+            // Set initial value
+            SearchText = movieSearchStore.State.SearchText;
+            
             var source = new SourceCache<OmdbMovieSearchDto, string>(x => x.ImdbId)
                 .DisposeWith(CleanUp);
 
@@ -46,16 +50,30 @@ namespace JE.App.Pages.Movie.List
                 .DisposeWith(CleanUp);
 
             var searchTextObservable = this.WhenAnyValue(x => x.SearchText)
-                // Skip initial value which is null
+                // Skip initial value
                 .Skip(1)
                 // Use throttle to prevent over requesting data
                 .Throttle(TimeSpan.FromMilliseconds(250))
                 .Publish();
 
             searchTextObservable
-                .Do(_ => IsSearching = true)
+                .Subscribe(x => movieSearchStore.Dispatch(new PerformMovieSearchAction(x)))
+                .DisposeWith(CleanUp);
+            
+            searchTextObservable
                 .SelectMany(omdbMovieService.SearchAsync)
-                .Do(_ => IsSearching = false)
+                .Subscribe(x => movieSearchStore.Dispatch(new PerformMovieSearchFulfilledAction(x)))
+                .DisposeWith(CleanUp);
+
+            searchTextObservable.Connect();
+            
+            movieSearchStore
+                .ObserveState(x => x.IsSearching)
+                .ToPropertyEx(this, x => x.IsSearching)
+                .DisposeWith(CleanUp);
+            
+            movieSearchStore
+                .ObserveState(x => x.Movies)
                 .Subscribe(x => source.Edit(list =>
                 {
                     list.Clear();
@@ -64,8 +82,10 @@ namespace JE.App.Pages.Movie.List
                         list.AddOrUpdate(x);
                 }))
                 .DisposeWith(CleanUp);
-
-            searchTextObservable
+            
+            movieSearchStore
+                .ObserveState(x => x.SearchText)
+                .Skip(1)
                 .SelectMany(async x =>
                 {
                     await UpdateSearchTextsAsync(x);
@@ -74,15 +94,13 @@ namespace JE.App.Pages.Movie.List
                 })
                 .Subscribe()
                 .DisposeWith(CleanUp);
-
-            searchTextObservable.Connect();
         }
 
         [Reactive]
         public string SearchText { get; set; }
 
-        [Reactive]
-        public bool IsSearching { get; set; }
+        [UsedImplicitly]
+        public bool IsSearching { [ObservableAsProperty] get; }
 
         [UsedImplicitly]
         public bool IsSourceEmpty { [ObservableAsProperty] get; }
@@ -91,7 +109,7 @@ namespace JE.App.Pages.Movie.List
 
         public void OpenDetail(string id) => _uriHelper.NavigateTo($"/movie/{id}");
 
-        internal async Task UpdateSearchTextsAsync(string x)
+        private async Task UpdateSearchTextsAsync(string x)
         {
             var searchedTexts = await GetSearchTextValuesAsync();
 
