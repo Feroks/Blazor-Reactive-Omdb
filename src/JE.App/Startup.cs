@@ -1,4 +1,3 @@
-using JE.App.Data;
 using JE.App.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -22,10 +21,9 @@ namespace JE.App
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddBlazor();
-
-            services.AddSingleton<WeatherForecastService>();
-
+            services.AddServices();
             services.AddOptions();
+            services.AddCustomOptions(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
