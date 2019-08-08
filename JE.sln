@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JE.Core", "src\JE.Core\JE.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JE.Infrastructure", "src\JE.Infrastructure\JE.Infrastructure.csproj", "{3F7CBDBF-B2F3-4A89-BC70-3411436C5334}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8A274660-F363-4A8E-97AE-6F07A2CD9BFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JE.App.Tests", "test\JE.App.Tests\JE.App.Tests.csproj", "{7DE40B31-34E2-448F-A36C-F6F792D02166}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,10 @@ Global
 		{3F7CBDBF-B2F3-4A89-BC70-3411436C5334}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F7CBDBF-B2F3-4A89-BC70-3411436C5334}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F7CBDBF-B2F3-4A89-BC70-3411436C5334}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DE40B31-34E2-448F-A36C-F6F792D02166}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DE40B31-34E2-448F-A36C-F6F792D02166}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DE40B31-34E2-448F-A36C-F6F792D02166}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DE40B31-34E2-448F-A36C-F6F792D02166}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +49,7 @@ Global
 		{57F682CE-5478-4D65-92F6-64F881B028B1} = {6AE6EBD1-13D8-410B-98F9-83A1191C6745}
 		{7EDF0C90-4DFE-4A0B-A23C-5981F95FF29E} = {B25E0B82-D56E-400F-BBC6-14BCE1B4675E}
 		{3F7CBDBF-B2F3-4A89-BC70-3411436C5334} = {CC29B659-76F5-4A6A-B495-F9BED2AD70E5}
+		{7DE40B31-34E2-448F-A36C-F6F792D02166} = {8A274660-F363-4A8E-97AE-6F07A2CD9BFD}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BC93FE94-41CD-463A-A05A-B927BA57B8A1}

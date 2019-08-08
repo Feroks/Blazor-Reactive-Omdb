@@ -8,20 +8,27 @@ using Microsoft.AspNetCore.Components;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 
+[assembly: InternalsVisibleTo("JE.App.Tests")]
 namespace JE.App.Pages.Movie.List
 {
     public class MovieListViewModel : BaseViewModel
     {
+        private const string SearchTextKey = "MovieSearchTextKey";
         private readonly IUriHelper _uriHelper;
+        private readonly ILocalStorageService _localStorageService;
 
         public MovieListViewModel(IOmdbMovieService omdbMovieService, IUriHelper uriHelper, ILocalStorageService localStorageService)
         {
             _uriHelper = uriHelper;
+            _localStorageService = localStorageService;
 
             var source = new SourceCache<OmdbMovieSearchDto, string>(x => x.ImdbId)
                 .DisposeWith(CleanUp);
@@ -56,22 +63,11 @@ namespace JE.App.Pages.Movie.List
                 }))
                 .DisposeWith(CleanUp);
 
-            const string searchTextKey = "MovieSearchTextKey";
 
             searchTextObservable
                 .SelectMany(async x =>
                 {
-                    var searchedTexts = await localStorageService
-                        .GetItemAsync<string[]>(searchTextKey)
-                        .ConfigureAwait(false);
-
-                    var newTexts = (searchedTexts ?? new string[0])
-                        .TakeLast(4)
-                        .Append(x);
-
-                    await localStorageService
-                        .SetItemAsync(searchTextKey, newTexts)
-                        .ConfigureAwait(false);
+                    await UpdateSearchTextsAsync(x);
 
                     return Unit.Default;
                 })
@@ -93,5 +89,28 @@ namespace JE.App.Pages.Movie.List
         public IObservableCollection<OmdbMovieSearchDto> Movies { get; } = new ObservableCollectionExtended<OmdbMovieSearchDto>();
 
         public void OpenDetail(string id) => _uriHelper.NavigateTo($"/movie/{id}");
+
+        internal async Task UpdateSearchTextsAsync(string x)
+        {
+            var searchedTexts = await GetSearchTextValuesAsync();
+
+            var newTexts = searchedTexts
+                .TakeLast(4)
+                .Append(x);
+
+            await _localStorageService
+                .SetItemAsync(SearchTextKey, newTexts)
+                .ConfigureAwait(false);
+        }
+
+        [ItemNotNull]
+        internal async Task<IEnumerable<string>> GetSearchTextValuesAsync()
+        {
+            var searchedTexts = await _localStorageService
+                .GetItemAsync<string[]>(SearchTextKey)
+                .ConfigureAwait(false);
+
+            return searchedTexts ?? Enumerable.Empty<string>();
+        }
     }
 }
