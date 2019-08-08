@@ -77,9 +77,7 @@ namespace JE.App.Pages.Movie.List
                 .Subscribe(x => source.Edit(list =>
                 {
                     list.Clear();
-
-                    if (x != null)
-                        list.AddOrUpdate(x);
+                    list.AddOrUpdate(x);
                 }))
                 .DisposeWith(CleanUp);
             
@@ -89,7 +87,6 @@ namespace JE.App.Pages.Movie.List
                 .SelectMany(async x =>
                 {
                     await UpdateSearchTextsAsync(x);
-
                     return Unit.Default;
                 })
                 .Subscribe()

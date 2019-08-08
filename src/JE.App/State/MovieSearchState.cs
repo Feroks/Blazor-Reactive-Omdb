@@ -9,6 +9,6 @@ namespace JE.App.State
         
         public bool IsSearching { get; set; }
 
-        public ImmutableArray<OmdbMovieSearchDto> Movies { get; set; }
+        public ImmutableArray<OmdbMovieSearchDto> Movies { get; set; } = ImmutableArray<OmdbMovieSearchDto>.Empty;
     }
 }
