@@ -11,9 +11,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{6AE6EBD1-13D8-410B-98F9-83A1191C6745}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JE.Core", "src\JE.Core\JE.Core.csproj", "{7EDF0C90-4DFE-4A0B-A23C-5981F95FF29E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JE.Core", "src\JE.Core\JE.Core.csproj", "{7EDF0C90-4DFE-4A0B-A23C-5981F95FF29E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JE.Infrastructure", "src\JE.Infrastructure\JE.Infrastructure.csproj", "{3F7CBDBF-B2F3-4A89-BC70-3411436C5334}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JE.Infrastructure", "src\JE.Infrastructure\JE.Infrastructure.csproj", "{3F7CBDBF-B2F3-4A89-BC70-3411436C5334}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

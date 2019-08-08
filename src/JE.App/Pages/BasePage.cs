@@ -4,7 +4,7 @@ using System.Reactive.Linq;
 
 namespace JE.App.Pages
 {
-    public class BasePage<T> : ComponentBase, IDisposable
+    public abstract class BasePage<T> : ComponentBase, IDisposable
         where T : BaseViewModel
     {
         private IDisposable _vmUpdateSubscription;
@@ -18,7 +18,7 @@ namespace JE.App.Pages
                 .FromEventPattern(
                     h => ViewModel.StateHasChanged += h,
                     h => ViewModel.StateHasChanged -= h)
-                .Subscribe(x => Invoke(StateHasChanged));
+                .Subscribe(_ => Invoke(StateHasChanged));
         }
 
         public void Dispose()

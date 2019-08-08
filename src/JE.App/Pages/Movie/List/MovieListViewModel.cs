@@ -2,6 +2,7 @@
 using DynamicData.Binding;
 using JE.Core.Dto;
 using JE.Infrastructure.Services;
+using Microsoft.AspNetCore.Components;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 using System;
@@ -12,8 +13,12 @@ namespace JE.App.Pages.Movie.List
 {
     public class MovieListViewModel : BaseViewModel
     {
-        public MovieListViewModel(IOmdbMovieService omdbMovieService)
+        private readonly IUriHelper _uriHelper;
+
+        public MovieListViewModel(IOmdbMovieService omdbMovieService, IUriHelper uriHelper)
         {
+            _uriHelper = uriHelper;
+
             var source = new SourceCache<OmdbMovieSearchDto, string>(x => x.ImdbId)
                 .DisposeWith(CleanUp);
 
@@ -41,5 +46,7 @@ namespace JE.App.Pages.Movie.List
         public string SearchText { get; set; }
 
         public IObservableCollection<OmdbMovieSearchDto> Movies { get; } = new ObservableCollectionExtended<OmdbMovieSearchDto>();
+
+        public void OpenDetail(string id) => _uriHelper.NavigateTo($"/movie/{id}");
     }
 }

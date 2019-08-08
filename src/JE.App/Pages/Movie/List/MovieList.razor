@@ -14,7 +14,7 @@
     <tbody>
         @foreach (var movie in ViewModel.Movies)
         {
-            <tr>
+            <tr @onclick="(() => ViewModel.OpenDetail(movie.ImdbId))">
                 <td><img src="@movie.Poster.ToString()" height="55"></td>
                 <td class="align-middle">@movie.Title</td>
                 <td class="align-middle">@movie.Year</td>

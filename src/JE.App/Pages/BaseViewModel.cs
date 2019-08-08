@@ -7,14 +7,14 @@ using System.Reactive.Linq;
 
 namespace JE.App.Pages
 {
-    public class BaseViewModel : ReactiveObject, IDisposable
+    public abstract class BaseViewModel : ReactiveObject, IDisposable
     {
         /// <summary>
         /// Since we use a ViewModel approach we need to manually call StateHasChanged on the component level
         /// </summary>
         public event EventHandler StateHasChanged;
 
-        public BaseViewModel()
+        protected BaseViewModel()
         {
             Observable
                 .FromEventPattern<PropertyChangedEventHandler, PropertyChangedEventArgs>(
