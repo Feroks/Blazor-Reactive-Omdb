@@ -10,6 +10,8 @@ namespace JE.App.State
 		{
 			switch (action)
 			{
+				case ResetMovieSearchAction _:
+					return ReduceResetMovieSearch();
 				case PerformMovieSearchAction rAction:
 					return ReducePerformMovieSearch(rAction);
 				case PerformMovieSearchFulfilledAction rAction:
@@ -18,6 +20,14 @@ namespace JE.App.State
 			
 			return base.Reduce(state, action);
 		}
+
+		private static MovieSearchState ReduceResetMovieSearch() =>
+			new MovieSearchState
+			{
+				SearchText = string.Empty,
+				IsSearching = false,
+				Movies = ImmutableArray<OmdbMovieSearchDto>.Empty
+			};
 
 		private static MovieSearchState ReducePerformMovieSearch(PerformMovieSearchAction rAction) =>
             new MovieSearchState

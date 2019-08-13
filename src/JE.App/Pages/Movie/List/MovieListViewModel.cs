@@ -24,7 +24,11 @@ namespace JE.App.Pages.Movie.List
         private readonly IUriHelper _uriHelper;
         private readonly ILocalStorageService _localStorageService;
 
-        public MovieListViewModel(IOmdbMovieService omdbMovieService, IUriHelper uriHelper, ILocalStorageService localStorageService, MovieSearchStore movieSearchStore)
+        public MovieListViewModel(
+            IOmdbMovieService omdbMovieService,
+            IUriHelper uriHelper,
+            ILocalStorageService localStorageService,
+            MovieSearchStore movieSearchStore)
         {
             _uriHelper = uriHelper;
             _localStorageService = localStorageService;
@@ -54,10 +58,17 @@ namespace JE.App.Pages.Movie.List
                 .Publish();
 
             searchTextObservable
+                .Where(string.IsNullOrEmpty)
+                .Subscribe(_ => movieSearchStore.Dispatch(new ResetMovieSearchAction()))
+                .DisposeWith(CleanUp);
+                
+            searchTextObservable
+                .Where(x => !string.IsNullOrEmpty(x))
                 .Subscribe(x => movieSearchStore.Dispatch(new PerformMovieSearchAction(x)))
                 .DisposeWith(CleanUp);
             
             searchTextObservable
+                .Where(x => !string.IsNullOrEmpty(x))
                 .SelectMany(omdbMovieService.SearchAsync)
                 .Subscribe(x => movieSearchStore.Dispatch(new PerformMovieSearchFulfilledAction(x)))
                 .DisposeWith(CleanUp);

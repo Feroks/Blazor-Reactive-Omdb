@@ -5,6 +5,10 @@ using System.Linq;
 
 namespace JE.App.State
 {
+	public class ResetMovieSearchAction
+	{
+	}
+	
     public class PerformMovieSearchAction
 	{
 		public PerformMovieSearchAction(string searchText)
