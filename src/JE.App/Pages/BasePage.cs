@@ -1,6 +1,7 @@
 ﻿using JetBrains.Annotations;
 using Microsoft.AspNetCore.Components;
 using System;
+using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 
@@ -15,13 +16,18 @@ namespace JE.App.Pages
         [NotNull]
         protected  CompositeDisposable CleanUp { get; } = new CompositeDisposable();
 
-        protected override void OnInit()
+        protected override void OnInitialized()
         {
             Observable
                 .FromEventPattern(
                     h => ViewModel.StateHasChanged += h,
                     h => ViewModel.StateHasChanged -= h)
-                .Subscribe(_ => Invoke(StateHasChanged))
+                .SelectMany(async _ =>
+                {
+                    await InvokeAsync(StateHasChanged);
+                    return Unit.Default;
+                })
+                .Subscribe()
                 .DisposeWith(CleanUp);
         }
 
