@@ -14,8 +14,8 @@ namespace JE.App.Tests.Pages.Movie.List.MovieListViewModelTests
 
             vm.OpenDetail(id);
 
-            UriHelperMock
-                .Verify(x => x.NavigateTo($"/movie/{id}"), Times.Once);
+            NavigationManagerMock
+                .Verify(x => x.NavigateTo($"/movie/{id}", false), Times.Once);
         }
     }
 }

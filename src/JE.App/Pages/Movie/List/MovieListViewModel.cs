@@ -21,16 +21,16 @@ namespace JE.App.Pages.Movie.List
     public class MovieListViewModel : BaseViewModel
     {
         private const string SearchTextKey = "MovieSearchTextKey";
-        private readonly IUriHelper _uriHelper;
+        private readonly NavigationManager _navigationManager;
         private readonly ILocalStorageService _localStorageService;
 
         public MovieListViewModel(
             IOmdbMovieService omdbMovieService,
-            IUriHelper uriHelper,
+            NavigationManager navigationManager,
             ILocalStorageService localStorageService,
             MovieSearchStore movieSearchStore)
         {
-            _uriHelper = uriHelper;
+            _navigationManager = navigationManager;
             _localStorageService = localStorageService;
             
             // Set initial value
@@ -114,7 +114,7 @@ namespace JE.App.Pages.Movie.List
 
         public IObservableCollection<OmdbMovieSearchDto> Movies { get; } = new ObservableCollectionExtended<OmdbMovieSearchDto>();
 
-        public void OpenDetail(string id) => _uriHelper.NavigateTo($"/movie/{id}");
+        public void OpenDetail(string id) => _navigationManager.NavigateTo($"/movie/{id}");
 
         private async Task UpdateSearchTextsAsync(string x)
         {

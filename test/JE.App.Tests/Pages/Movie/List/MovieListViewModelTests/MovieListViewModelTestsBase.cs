@@ -13,12 +13,12 @@ namespace JE.App.Tests.Pages.Movie.List.MovieListViewModelTests
         {
             var mockRepository = new MockRepository(MockBehavior.Default);
 
-            UriHelperMock = mockRepository.Create<IUriHelper>();
+            NavigationManagerMock = mockRepository.Create<NavigationManager>();
             OmdbMovieServiceMock = mockRepository.Create<IOmdbMovieService>();
             LocalStorageServiceMock = mockRepository.Create<ILocalStorageService>();
         }
 
-        protected Mock<IUriHelper> UriHelperMock { get; }
+        protected Mock<NavigationManager> NavigationManagerMock { get; }
 
         protected Mock<IOmdbMovieService> OmdbMovieServiceMock { get; }
 
@@ -27,7 +27,7 @@ namespace JE.App.Tests.Pages.Movie.List.MovieListViewModelTests
         protected MovieListViewModel CreateClass() =>
             new MovieListViewModel(
                 OmdbMovieServiceMock.Object,
-                UriHelperMock.Object,
+                NavigationManagerMock.Object,
                 LocalStorageServiceMock.Object,
                 new MovieSearchStore());
     }
