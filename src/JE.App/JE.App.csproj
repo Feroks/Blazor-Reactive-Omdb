@@ -7,14 +7,14 @@
 
   <ItemGroup>
     <PackageReference Include="Blazored.LocalStorage" Version="2.1.0" />
-    <PackageReference Include="Fody" Version="5.1.1">
+    <PackageReference Include="Fody" Version="6.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" />
-    <PackageReference Include="ReactiveUI" Version="9.20.1" />
-    <PackageReference Include="ReactiveUI.Fody" Version="9.20.1" />
-    <PackageReference Include="ReduxSimple" Version="2.0.1" />
+    <PackageReference Include="ReactiveUI" Version="10.2.2" />
+    <PackageReference Include="ReactiveUI.Fody" Version="10.2.2" />
+    <PackageReference Include="ReduxSimple" Version="2.1.0" />
     <PackageReference Include="Scrutor" Version="3.1.0" />
     <PackageReference Include="System.Reactive.Linq" Version="4.1.6" />
   </ItemGroup>

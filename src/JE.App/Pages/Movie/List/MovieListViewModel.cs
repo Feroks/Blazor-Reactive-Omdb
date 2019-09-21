@@ -76,12 +76,12 @@ namespace JE.App.Pages.Movie.List
             searchTextObservable.Connect();
             
             movieSearchStore
-                .ObserveState(x => x.IsSearching)
+                .Select(x => x.IsSearching)
                 .ToPropertyEx(this, x => x.IsSearching)
                 .DisposeWith(CleanUp);
             
             movieSearchStore
-                .ObserveState(x => x.Movies)
+                .Select(x => x.Movies)
                 .Subscribe(x => source.Edit(list =>
                 {
                     list.Clear();
@@ -90,7 +90,7 @@ namespace JE.App.Pages.Movie.List
                 .DisposeWith(CleanUp);
             
             movieSearchStore
-                .ObserveState(x => x.SearchText)
+                .Select(x => x.SearchText)
                 .Skip(1)
                 .SelectMany(async x =>
                 {
