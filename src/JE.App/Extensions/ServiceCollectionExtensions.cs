@@ -4,6 +4,7 @@ using JE.Infrastructure.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using ReduxSimple;
 
 namespace JE.App.Extensions
 {
@@ -47,7 +48,7 @@ namespace JE.App.Extensions
         
         public static IServiceCollection AddRedux(this IServiceCollection services)
         {
-            services.AddScoped(_ => new MovieSearchStore());
+            services.AddScoped(sp => new ReduxStore<MovieSearchState>(MovieSearchReducers.CreateReducers()));
 
             return services;
         }

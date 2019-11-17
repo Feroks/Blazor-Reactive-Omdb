@@ -4,6 +4,7 @@ using JE.App.State;
 using JE.Infrastructure.Services;
 using Microsoft.AspNetCore.Components;
 using Moq;
+using ReduxSimple;
 
 namespace JE.App.Tests.Pages.Movie.List.MovieListViewModelTests
 {
@@ -16,6 +17,7 @@ namespace JE.App.Tests.Pages.Movie.List.MovieListViewModelTests
             NavigationManagerMock = mockRepository.Create<NavigationManager>();
             OmdbMovieServiceMock = mockRepository.Create<IOmdbMovieService>();
             LocalStorageServiceMock = mockRepository.Create<ILocalStorageService>();
+            MovieSearchStoreMock = mockRepository.Create<ReduxStore<MovieSearchState>>();
         }
 
         protected Mock<NavigationManager> NavigationManagerMock { get; }
@@ -24,11 +26,13 @@ namespace JE.App.Tests.Pages.Movie.List.MovieListViewModelTests
 
         protected Mock<ILocalStorageService> LocalStorageServiceMock { get; }
 
+        protected Mock<ReduxStore<MovieSearchState>> MovieSearchStoreMock { get; }
+
         protected MovieListViewModel CreateClass() =>
             new MovieListViewModel(
                 OmdbMovieServiceMock.Object,
                 NavigationManagerMock.Object,
                 LocalStorageServiceMock.Object,
-                new MovieSearchStore());
+                MovieSearchStoreMock.Object);
     }
 }

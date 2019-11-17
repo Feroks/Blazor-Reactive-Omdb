@@ -8,6 +8,7 @@ using JetBrains.Annotations;
 using Microsoft.AspNetCore.Components;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using ReduxSimple;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,14 +29,14 @@ namespace JE.App.Pages.Movie.List
             IOmdbMovieService omdbMovieService,
             NavigationManager navigationManager,
             ILocalStorageService localStorageService,
-            MovieSearchStore movieSearchStore)
+            ReduxStore<MovieSearchState> movieSearchStore)
         {
             _navigationManager = navigationManager;
             _localStorageService = localStorageService;
             
             // Set initial value
             SearchText = movieSearchStore.State.SearchText;
-            
+
             var source = new SourceCache<OmdbMovieSearchDto, string>(x => x.ImdbId)
                 .DisposeWith(CleanUp);
 
@@ -76,12 +77,12 @@ namespace JE.App.Pages.Movie.List
             searchTextObservable.Connect();
             
             movieSearchStore
-                .Select(x => x.IsSearching)
+                .Select(MovieSearchSelectors.SelectIsSearching)
                 .ToPropertyEx(this, x => x.IsSearching)
                 .DisposeWith(CleanUp);
             
             movieSearchStore
-                .Select(x => x.Movies)
+                .Select(MovieSearchSelectors.SelectMovies)
                 .Subscribe(x => source.Edit(list =>
                 {
                     list.Clear();
@@ -90,7 +91,7 @@ namespace JE.App.Pages.Movie.List
                 .DisposeWith(CleanUp);
             
             movieSearchStore
-                .Select(x => x.SearchText)
+                .Select(MovieSearchSelectors.SelectSearchText)
                 .Skip(1)
                 .SelectMany(async x =>
                 {
