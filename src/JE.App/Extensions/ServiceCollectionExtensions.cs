@@ -48,7 +48,14 @@ namespace JE.App.Extensions
         
         public static IServiceCollection AddRedux(this IServiceCollection services)
         {
-            services.AddScoped(sp => new ReduxStore<MovieSearchState>(MovieSearchReducers.CreateReducers()));
+            services.AddScoped(sp =>
+            {
+                var store = new ReduxStore<MovieSearchState>(MovieSearchReducers.CreateReducers());
+                var effects = new MovieSearchEffects(store, sp.GetService<IOmdbMovieService>());
+                store.RegisterEffects(effects.SearchMovies);
+
+                return store;
+            });
 
             return services;
         }

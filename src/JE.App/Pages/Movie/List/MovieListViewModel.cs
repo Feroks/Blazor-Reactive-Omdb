@@ -3,7 +3,6 @@ using DynamicData;
 using DynamicData.Binding;
 using JE.App.State;
 using JE.Core.Dto;
-using JE.Infrastructure.Services;
 using JetBrains.Annotations;
 using Microsoft.AspNetCore.Components;
 using ReactiveUI;
@@ -26,7 +25,6 @@ namespace JE.App.Pages.Movie.List
         private readonly ILocalStorageService _localStorageService;
 
         public MovieListViewModel(
-            IOmdbMovieService omdbMovieService,
             NavigationManager navigationManager,
             ILocalStorageService localStorageService,
             ReduxStore<MovieSearchState> movieSearchStore)
@@ -66,12 +64,6 @@ namespace JE.App.Pages.Movie.List
             searchTextObservable
                 .Where(x => !string.IsNullOrEmpty(x))
                 .Subscribe(x => movieSearchStore.Dispatch(new PerformMovieSearchAction(x)))
-                .DisposeWith(CleanUp);
-            
-            searchTextObservable
-                .Where(x => !string.IsNullOrEmpty(x))
-                .SelectMany(omdbMovieService.SearchAsync)
-                .Subscribe(x => movieSearchStore.Dispatch(new PerformMovieSearchFulfilledAction(x)))
                 .DisposeWith(CleanUp);
 
             searchTextObservable.Connect();
