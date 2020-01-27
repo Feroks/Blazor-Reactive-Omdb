@@ -30,7 +30,6 @@ namespace JE.App.Tests.Pages.Movie.List.MovieListViewModelTests
 
         protected MovieListViewModel CreateClass() =>
             new MovieListViewModel(
-                OmdbMovieServiceMock.Object,
                 NavigationManagerMock.Object,
                 LocalStorageServiceMock.Object,
                 MovieSearchStoreMock.Object);
