@@ -108,7 +108,6 @@ namespace JE.App.Pages.Movie.List
         public IObservableCollection<OmdbMovieSearchDto> Movies { get; } = new ObservableCollectionExtended<OmdbMovieSearchDto>();
 
         public void OpenDetail(string id) => _navigationManager.NavigateTo($"/movie/{id}");
-
         
         /// <summary>
         /// Save Search Text in Local storage. Only last 5 searches are saved
