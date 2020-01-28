@@ -13,7 +13,9 @@ namespace JE.App.Pages.Movie.Detail
         public MovieDetailViewModel(IOmdbMovieService omdbMovieService)
         {
             this.WhenAnyValue(x => x.Id)
+                // Ignore initial value of Id, which is default(string) (null)                
                 .Skip(1)
+                // It is an input parameter it is set only once, therefore use Take(1)
                 .Take(1)
                 .SelectMany(omdbMovieService.GetAsync)
                 .ToPropertyEx(this, x => x.Movie)

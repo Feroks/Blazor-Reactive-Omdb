@@ -12,7 +12,7 @@ namespace JE.App.Tests.Pages.Movie.List.MovieListViewModelTests
         {
             var vm = CreateClass();
 
-            var result = await vm.GetSearchTextValuesAsync();
+            var result = await vm.LoadSearchTextValuesAsync();
 
             result
                 .Should()

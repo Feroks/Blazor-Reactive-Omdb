@@ -4,9 +4,12 @@ using JE.Core.Dto;
 using JE.Core.Options;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using JetBrains.Annotations;
 
 namespace JE.Infrastructure.Services
 {
+    /// <inheritdoc />
+    [UsedImplicitly]
     public class OmdbMovieService : IOmdbMovieService
     {
         private readonly string _apiKey;

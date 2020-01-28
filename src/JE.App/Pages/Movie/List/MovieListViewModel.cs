@@ -87,7 +87,7 @@ namespace JE.App.Pages.Movie.List
                 .Skip(1)
                 .SelectMany(async x =>
                 {
-                    await UpdateSearchTextsAsync(x)
+                    await SaveSearchTextsAsync(x)
                         .ConfigureAwait(false);
 
                     return Unit.Default;
@@ -109,9 +109,16 @@ namespace JE.App.Pages.Movie.List
 
         public void OpenDetail(string id) => _navigationManager.NavigateTo($"/movie/{id}");
 
-        private async Task UpdateSearchTextsAsync(string x)
+        
+        /// <summary>
+        /// Save Search Text in Local storage. Only last 5 searches are saved
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
+        private async Task SaveSearchTextsAsync(string x)
         {
-            var searchedTexts = await GetSearchTextValuesAsync();
+            var searchedTexts = await LoadSearchTextValuesAsync()
+                .ConfigureAwait(false);
 
             var newTexts = searchedTexts
                 .TakeLast(4)
@@ -122,8 +129,12 @@ namespace JE.App.Pages.Movie.List
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        /// Load Last Search Texts stored in Local storage
+        /// </summary>
+        /// <returns></returns>
         [ItemNotNull]
-        internal async Task<IEnumerable<string>> GetSearchTextValuesAsync()
+        internal async Task<IEnumerable<string>> LoadSearchTextValuesAsync()
         {
             var searchedTexts = await _localStorageService
                 .GetItemAsync<string[]>(SearchTextKey)
