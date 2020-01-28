@@ -1,7 +1,7 @@
 ﻿@page "/"
 @inherits BasePage<MovieListViewModel>
 
-<input class="form-control mb-4" @bind-value="ViewModel.SearchText" @bind-value:event="oninput" type="text" placeholder="Search" aria-label="Search"></input>
+<input class="form-control mb-4" @bind-value="ViewModel.SearchText" @bind-value:event="oninput" type="text" placeholder="Search" aria-label="Search">
 
 @if (ViewModel.IsSearching)
 {
@@ -25,7 +25,7 @@ else if (!ViewModel.IsSourceEmpty)
         @foreach (var movie in ViewModel.Movies)
         {
             <tr @onclick="(() => ViewModel.OpenDetail(movie.ImdbId))" style="cursor: pointer;">
-                <td><img src="@movie.Poster.ToString()" height="55"></td>
+                <td><img src="@movie.Poster.ToString()" alt="Movie Thumbnail" height="55"></td>
                 <td class="align-middle">@movie.Title</td>
                 <td class="align-middle">@movie.Year</td>
             </tr>
