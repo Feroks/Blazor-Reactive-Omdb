@@ -11,28 +11,25 @@
         </div>
     </div>
 }
-else
+else if (!ViewModel.IsSourceEmpty)
 {
-    if (!ViewModel.IsSourceEmpty)
-    {
-        <table class="table table-striped">
-            <thead>
-            <tr>
-                <th>Poster</th>
-                <th>Title</th>
-                <th>Year</th>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Poster</th>
+            <th>Title</th>
+            <th>Year</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var movie in ViewModel.Movies)
+        {
+            <tr @onclick="(() => ViewModel.OpenDetail(movie.ImdbId))" style="cursor: pointer;">
+                <td><img src="@movie.Poster.ToString()" height="55"></td>
+                <td class="align-middle">@movie.Title</td>
+                <td class="align-middle">@movie.Year</td>
             </tr>
-            </thead>
-            <tbody>
-            @foreach (var movie in ViewModel.Movies)
-            {
-                <tr @onclick="(() => ViewModel.OpenDetail(movie.ImdbId))" style="cursor: pointer;">
-                    <td><img src="@movie.Poster.ToString()" height="55"></td>
-                    <td class="align-middle">@movie.Title</td>
-                    <td class="align-middle">@movie.Year</td>
-                </tr>
-            }
-            </tbody>
-        </table>
-    }
+        }
+        </tbody>
+    </table>
 }
