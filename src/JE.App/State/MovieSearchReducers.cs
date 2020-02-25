@@ -10,7 +10,7 @@ namespace JE.App.State
     {
         public static IEnumerable<On<MovieSearchState>> CreateReducers()
         {
-            return new List<On<MovieSearchState>>
+            return new[]
             {
                 On<ResetMovieSearchAction, MovieSearchState>((state, action) => new MovieSearchState
                 {
