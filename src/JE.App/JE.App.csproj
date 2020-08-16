@@ -6,13 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Blazored.LocalStorage" Version="2.1.6" />
-    <PackageReference Include="Fody" Version="6.2.0">
+    <PackageReference Include="Blazored.LocalStorage" Version="3.0.0" />
+    <PackageReference Include="Fody" Version="6.2.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="ReactiveUI" Version="11.4.1" />
-    <PackageReference Include="ReactiveUI.Fody" Version="11.4.1" />
+    <PackageReference Include="ReactiveUI" Version="11.5.26" />
+    <PackageReference Include="ReactiveUI.Fody" Version="11.5.26" />
     <PackageReference Include="ReduxSimple" Version="3.4.0" />
     <PackageReference Include="Scrutor" Version="3.2.1" />
   </ItemGroup>
